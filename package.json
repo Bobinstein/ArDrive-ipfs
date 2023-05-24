@@ -1,0 +1,13 @@
+{
+  "name": "ardrive-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@pinata/sdk": "^2.1.0",
+    "ardrive-core-js": "^1.18.0",
+    "arweave": "^1.13.7",
+    "dotenv": "^16.0.3"
+  },
+  "type": "module"
+}
