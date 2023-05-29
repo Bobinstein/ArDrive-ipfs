@@ -2,7 +2,7 @@
 
 ## Overview
 
-This tool is a created do demonstrate how to upload a folder to ArDrive using custom tags, as well as how to search for folders that exist on the Arweave network by using those custom tags.
+This tool is created to demonstrate how to upload a folder to ArDrive using custom tags, as well as how to search for folders that exist on the Arweave network by using those custom tags.
 
 This project uses the Pinata API and SDK for IPFS hashing and pinning, but it can easily be modified to use a different service.
 
