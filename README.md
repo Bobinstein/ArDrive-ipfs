@@ -17,9 +17,9 @@ This code is meant for demonstration purposes only, it is not intended for use i
 - Open a terminal in the project root folder and install dependencies with `yarn install`
 
 - Create a .env file in the root folder and fill it with following items:
-    - PinataAPIKey=<Your Pinata API Key>
-    - PinataAPISecret=<Your Pinata API Secret>
-    - driveName=<A name for the ArFS drive you want to use for ipfs content. Defaults to 'ipfsContent'>
+    - PinataAPIKey=<`Your Pinata API Key`>
+    - PinataAPISecret=<`Your Pinata API Secret`>
+    - driveName=<`A name for the ArFS drive you want to use for ipfs content. Defaults to 'ipfsContent'`>
 
 - Place an Arweave wallet Keyfile in the root folder of the project and name it 'keyFile.json'. This will be used to fund transactions and determine the owner of all files you upload. If you are new to Arweave, you can create a wallet and generate your key file [here](https://arweave.app/add)
     - IMPORTANT!! YOUR KEYFILE IS YOUR PRIVATE KEYS! DO NOT SHARE OR EXPOSE YOUR KEYFILE!!
