@@ -2,12 +2,21 @@ import Arweave from "arweave";
 import fs from "fs";
 import path from "path";
 
-const arweave = Arweave.init({ host: "arweave.net", port: 80, protocol: "http" });
+const arweave = Arweave.init({
+  host: "arweave.net",
+  port: 80,
+  protocol: "http",
+});
 
 async function downloadFile(transactionId, filePath) {
   try {
-    const uint8ArrayData = await arweave.transactions.getData(transactionId, { decode: true });
+    // Downloads the file from Arweave as uint8 array data
+    const uint8ArrayData = await arweave.transactions.getData(transactionId, {
+      decode: true,
+    });
+    // Buffers data to be saved
     const bufferData = Buffer.from(uint8ArrayData);
+    // Writes buffered data locally
     fs.writeFileSync(filePath, bufferData);
     console.log(`File downloaded: ${filePath}`);
   } catch (error) {
@@ -24,7 +33,10 @@ export default async function DownloadFiles(folderName, filesData) {
   // Loop through the files and download each one
   for (const file of filesData) {
     // Download the JSON data for each file
-    const jsonData = await arweave.transactions.getData(file.id, { decode: true, string: true });
+    const jsonData = await arweave.transactions.getData(file.id, {
+      decode: true,
+      string: true,
+    });
     const fileData = JSON.parse(jsonData);
 
     // Use the "name" field in the JSON to name the file

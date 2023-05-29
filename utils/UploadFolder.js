@@ -1,54 +1,45 @@
 import { config } from "dotenv";
 import HashFolder from "./HashFolder.js";
-import {
-  readJWKFile,
-  wrapFileOrFolder,
-  arDriveFactory,
-} from "ardrive-core-js";
+import { readJWKFile, wrapFileOrFolder, arDriveFactory } from "ardrive-core-js";
 import checkForFolder from "./CheckForFolder.js";
 import CheckForDrive from "./CheckForDrive.js";
-import { basename, dirname } from 'path';
+import { basename, dirname } from "path";
 
 config();
 
 // Read wallet from file
 const myWallet = readJWKFile("./keyFile.json");
-const driveName = process.env.driveName;
+const driveName = process.env.driveName || 'ipfsContent';
+
 // Construct ArDrive class
 const arDrive = arDriveFactory({ wallet: myWallet });
-// console.log(arDrive.wallet)
 
 const address = await myWallet.getAddress();
 const walletAddress = address.address;
-
-
 
 function getFolderName(filePath) {
   return basename(dirname(filePath));
 }
 
-
-
-export default async function UploadFolder(folderPath) {
+export default async function UploadFolder(folderPath, ipfsHash) {
   try {
     // gets folder name from path
-    const folderName = getFolderName(folderPath)
-
-    // Upload folder to IPFS and get the IPFS hash
-    const ipfsHash = await HashFolder(folderPath, folderName);
+    const folderName = getFolderName(folderPath);
 
     // Check if a public drive exists with the same name as the one set in .env
     const ipfsDrive = await CheckForDrive(walletAddress, driveName);
 
-
     // If the drive does not exist, create it
     if (ipfsDrive === null) {
-      console.log("creating Drive. Wait 3-5 minutes before running again to ensure it propogates on the network.");
+      console.log(
+        "creating Drive. Wait 3-5 minutes before running again to ensure it propagates on the network."
+      );
+
       const createDriveResult = await arDrive.createPublicDrive({
-        driveName: "ipfsContent",
+        driveName: driveName,
       });
       // aborts the process and returns the result of creating the drive.
-      return createDriveResult
+      return createDriveResult;
     } else {
       // Check if a subfolder with the passed in folderName exists in the drive
       const folders = await checkForFolder(walletAddress, ipfsDrive);
@@ -71,8 +62,6 @@ export default async function UploadFolder(folderPath) {
               },
             }
           );
-          // console.log(`wrapped folder content:`)
-          console.log(wrappedFolder);
           // Upload to Ardrive
           const results = await arDrive.uploadAllEntities({
             entitiesToUpload: [
@@ -85,7 +74,7 @@ export default async function UploadFolder(folderPath) {
           console.log(
             `Folder uploaded to Arweave with transaction ID: ${results}`
           );
-          console.log(`Fees paid: ${JSON.stringify(results.fees)}`)
+          console.log(`Fees paid: ${JSON.stringify(results.fees)}`);
 
           return results;
         } catch (error) {

@@ -1,8 +1,8 @@
 import { config } from "dotenv";
 import pinataSDK from "@pinata/sdk";
-import { basename, dirname } from 'path';
+import { basename, dirname } from "path";
 
-config()
+config();
 
 const pinataApiKey = process.env.PinataAPIKey;
 const pinataApiSecret = process.env.PinataAPISecret;
@@ -13,19 +13,21 @@ function getFolderName(filePath) {
 }
 
 export default async function HashFolder(folderPath) {
+  // Gets name of folder to be hashed from its path
+  const folderName = getFolderName(folderPath);
+  // Sets Pinata upload options
+  const options = {
+    pinataMetadata: {
+      name: folderName,
+    },
+  };
 
-  const folderName = getFolderName(folderPath)
-    const options = {
-      pinataMetadata: {
-        name: folderName,
-      },
-    };
-    
-    try {
-      const result = await pinata.pinFromFS(folderPath, options);
-      console.log(result);
-      return result.IpfsHash;
-    } catch (error) {
-      console.log(`Error while pinning folder to IPFS: ${error}`);
-    }
+  try {
+    // Sends folder to Pinata for hashing
+    const result = await pinata.pinFromFS(folderPath, options);
+    console.log(result);
+    return result.IpfsHash;
+  } catch (error) {
+    console.log(`Error while pinning folder to IPFS: ${error}`);
   }
+}

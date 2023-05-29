@@ -1,9 +1,15 @@
 import Arweave from "arweave";
 
-const arweave = Arweave.init({ host: "arweave.net", port: 443, protocol: "https" });
+const arweave = Arweave.init({
+  host: "arweave.net",
+  port: 80,
+  protocol: "http",
+});
+// Sets the max number of tries a page of results will be attempted before aborting
 const MAX_RETRIES = 10;
 
 async function getFilesMetadataInFolder(folderId, cursor) {
+  // Queries for pages of file info
   const query = {
     query: `query {
       transactions(
@@ -36,7 +42,7 @@ async function getFilesMetadataInFolder(folderId, cursor) {
 }
 
 function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export default async function FindFiles(folderId) {
@@ -46,6 +52,7 @@ export default async function FindFiles(folderId) {
 
   while (true) {
     try {
+      // Attempts to query Arweave for file information with pagination
       let result = await getFilesMetadataInFolder(folderId, cursor);
       if (result.transactions.edges.length === 0) {
         break;
@@ -59,19 +66,21 @@ export default async function FindFiles(folderId) {
         filesData.push({ id, name });
       }
 
+      // Gets cursor for pagination
       let lastEdge = result.transactions.edges.slice(-1)[0];
       cursor = lastEdge.cursor;
 
       // Reset the retry count after a successful query
       retryCount = 0;
     } catch (error) {
+      // Adds to retry count to prevent an infinite error loop
       retryCount++;
       console.log(`Error in GraphQL query. Retry attempt: ${retryCount}`);
       if (retryCount > MAX_RETRIES) {
         throw new Error("Max retries exceeded. Aborting FindFiles process.");
       }
 
-      // Wait 1 second before retrying
+      // Wait 1 second before retrying after failed query
       await delay(1000);
     }
   }
