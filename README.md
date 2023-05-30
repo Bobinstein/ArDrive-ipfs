@@ -45,7 +45,7 @@ HashAndUpload takes in a single argument, the relative filepath from your workin
 
 The function takes that and passes it into the function HashFolder:
 
-HashFolder takes the filepath and uses it to get the name of the folder, and sets that as metadata for Pinata. It then uses Pinata to hash the folder into ipfs and pin the content to your account.
+HashFolder takes the filepath and uses it to get the name of the folder, and sets that as metadata for Pinata. It then uses Pinata to hash the folder into ipfs and pin the content to your account. If you are using nft.storage, metadata is not supported in the same way, so the content is hashed into and pinned to the ipfs network through nft.storage without that name value.
 
 It then returns the ipfs hash to be used by the next function UploadFolder
 
