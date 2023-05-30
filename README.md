@@ -26,7 +26,7 @@ This code is meant for demonstration purposes only, it is not intended for use i
     - PinataAPIKey=<`Your Pinata API Key`>
     - PinataAPISecret=<`Your Pinata API Secret`>
     - driveName=<`A name for the ArFS drive you want to use for ipfs content. Defaults to 'ipfsContent'`>
-- 
+- nftAPIToken may be blank if you are using Pinata, and the Pinata API values may be blank if you are using nft.storage.
 
 - Place an Arweave wallet Keyfile in the root folder of the project and name it 'keyFile.json'. This will be used to fund transactions and determine the owner of all files you upload. If you are new to Arweave, you can create a wallet and generate your key file [here](https://arweave.app/add)
     - IMPORTANT!! YOUR KEYFILE IS YOUR PRIVATE KEYS! DO NOT SHARE OR EXPOSE YOUR KEYFILE!!
