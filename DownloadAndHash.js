@@ -8,7 +8,7 @@ export default async function DownloadAndHash(Hash, folderName) {
   const FolderID = await GetFolderFromHash(Hash);
 
   // Finds all files in that folder
-  const files = await FindFiles(FolderID);
+  const files = await FindFiles(FolderID.value);
 
   // Downloads the files
   await DownloadFiles(folderName, files);
@@ -26,3 +26,4 @@ export default async function DownloadAndHash(Hash, folderName) {
     );
   }
 }
+

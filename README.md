@@ -2,24 +2,29 @@
 
 ## Overview
 
-This tool is created to demonstrate how to upload a folder to ArDrive using custom tags, as well as how to search for folders that exist on the Arweave network by using those custom tags.
+Arweave is a crypto blockchain designed for permanent data storage. One of the myriad use cases for permanent storage, is NFT content. Ipfs is a delivery method for content preferred by people in NFT communities, but it is not an efficient storage solution for that content. Keeping content available in the ipfs network requires that content be "pinned" to an ipfs node, otherwise it will eventually be deleted from all nodes an no longer searchable. Ipfs node operators usually charge money to pin your content in their node.
 
-This project uses the Pinata API and SDK for IPFS hashing and pinning, but it can easily be modified to use a different service.
+This tool was created to demonstrate how to upload a folder to Arweave using ArDrive and custom tags, as well as how to search for folders that exist on the Arweave network by using those custom tags.
+
+This project uses the API and SDK from either Pinata or nft.storage for IPFS hashing and pinning, but it can easily be modified to use a different service.
 
 This code is meant for demonstration purposes only, it is not intended for use in production.
 
 ## Getting Started
 
-- Create an account with [Pinata](https://www.pinata.cloud/)
+- Create an account with [Pinata](https://www.pinata.cloud/) or [NFT.Storage](https://nft.storage/login/?returnUrl=manage)
 
 - Clone the repository or download the zip file and extract the files locally
 
 - Open a terminal in the project root folder and install dependencies with `yarn install`
 
 - Create a .env file in the root folder and fill it with following items:
+    - ipfsProvider=<`Either 'Pinata' or 'nftStorage'`> 
+    - nftAPIToken=<`Your nft.storage API Key`>
     - PinataAPIKey=<`Your Pinata API Key`>
     - PinataAPISecret=<`Your Pinata API Secret`>
     - driveName=<`A name for the ArFS drive you want to use for ipfs content. Defaults to 'ipfsContent'`>
+- 
 
 - Place an Arweave wallet Keyfile in the root folder of the project and name it 'keyFile.json'. This will be used to fund transactions and determine the owner of all files you upload. If you are new to Arweave, you can create a wallet and generate your key file [here](https://arweave.app/add)
     - IMPORTANT!! YOUR KEYFILE IS YOUR PRIVATE KEYS! DO NOT SHARE OR EXPOSE YOUR KEYFILE!!
