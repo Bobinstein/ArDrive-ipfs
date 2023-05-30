@@ -51,4 +51,3 @@ export default async function DownloadFiles(folderName, filesData) {
 
   console.log("All files downloaded.");
 }
-

@@ -6,9 +6,11 @@ Arweave is a crypto blockchain designed for permanent data storage. One of the m
 
 This tool was created to demonstrate how to upload a folder to Arweave using ArDrive and custom tags, as well as how to search for folders that exist on the Arweave network by using those custom tags.
 
-This project uses the API and SDK from either Pinata or nft.storage for IPFS hashing and pinning, but it can easily be modified to use a different service.
+This project uses the API and SDK from either Pinata or nft.storage for ipfs hashing and pinning, but it can easily be modified to use a different service.
 
-This code is meant for demonstration purposes only, it is not intended for use in production.
+Once content is added to the ipfs network using your chosen provider, you can delete it from your account with them before being charged for pinning content. The content will have propagated through the network and will be available until it is garbage collected. Once content is lost from the network, you can simply use this code to download the files from Arweave and put them back into the network with the same ipfs hash.
+
+This code is meant for demonstration purposes only, it is not intended for use in production. 
 
 ## Getting Started
 
@@ -82,3 +84,35 @@ The file name is grabbed from the metadata of each file, and is passed into an a
 That information is then passed into the DownloadFiles function, which gets each file from Arweave using the transactionID, and saves it to a folder with the folderName originally passed in. Each file is given the name pulled from the file's metadata when originally uploaded.
 
 Once all of the files are downloaded, they are fed back into Pinata for an ipfs hash, and a check is made to make sure the new hash is identical to the one originally passed in.
+
+### All Utility Functions
+
+- CheckForDrive:
+    - This function takes in a public Arweave Wallet address, and a string. It finds a public drive in the Arweave network which is owned by the passed in wallet, and has a name matching the string passed in. 
+    - It returns a json object containing the 'name' and 'rootFolderId' of the drive, or null if there is an error. `{ name: 'ipfsContent', rootFolderId:'0e80dc93-088a-41c9-a978-777ab1cc92f4' }`
+    - This function includes a method to suppress non-fatal error messages that are associated with Arweave finding and returning content.
+
+- CheckForFolder:
+    - This function takes in a public Arweave Wallet address, and a json object matching the output of CheckForDrive.
+    - It returns an array of the names of folders in the root folder of the drive passed in.
+    - This function includes a method to suppress non-fatal error messages that are associated with Arweave finding and returning content.
+
+- DownloadFiles: 
+    - This function takes in a string and an array of objects matching the output of FindFiles.
+    - It has no return value.
+    
+- FindFiles: 
+    - This function takes in a folder ID (string)
+    - It returns an array of objects
+
+- GetFolderFromHash: 
+    - This function takes in an ipfs CID (string)
+    - It returns a json object with the following format `{ name: 'Folder-Id', value: 'f2c7157b-834a-440b-a1e9-86d767dc6151' }`
+
+- HashFolder:
+    - This function takes in a filepath to a folder (string)
+    - It returns an ipfs CID (string)
+
+- UploadFolder: 
+    - This function takes in a filepath to a folder (string), and an ipfs CID (string)
+    - It returns a json object detailing the results of creating a new public drive or uploading a folder to Arweave.
